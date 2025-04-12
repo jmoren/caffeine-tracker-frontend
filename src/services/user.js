@@ -13,11 +13,11 @@ export async function addRecord(body) {
 }
 
 export async function updateRecord(id, body) {
-  return api.patch(`/users/user_drinks/${id}`, body)
+  return api.patch(`/user/user_drinks/${id}`, body)
 }
 
 export async function removeRecord(id) {
-  return api.delete(`/users/user_drinks/${id}`)
+  return api.delete(`/user/user_drinks/${id}`)
 }
 
 export async function fetchSummary (startDate, endDate) {

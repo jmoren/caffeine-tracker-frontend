@@ -5,6 +5,7 @@ const api = axios.create({
   withCredentials: true, // ⚠️ This enables cookie auth
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
 })
 

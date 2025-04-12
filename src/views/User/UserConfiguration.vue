@@ -5,6 +5,7 @@
     <p>Username: {{ user.username }}</p>
     <h4>Configuration</h4>
     <p>Threshold: {{ user.config.threshold }}</p>
+    <p>Max per day: {{ user.config.max_per_day }}</p>
     <br>
     <a-button @click="showModal = true">Edit Configuration</a-button>
   </div>
@@ -26,6 +27,12 @@
         name="threshold"
       >
         <a-input-number v-model:value="userCopy.config.threshold" />
+      </a-form-item>
+      <a-form-item
+        label="Max per day"
+        name="max_per_day"
+      >
+        <a-input-number v-model:value="userCopy.config.max_per_day" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -50,6 +57,7 @@ const submit = async () => {
       user: {
         username: userCopy.value.username,
         user_configuration_attributes: {
+          max_per_day: userCopy.value.config.max_per_day,
           threshold: userCopy.value.config.threshold
         }
       }
