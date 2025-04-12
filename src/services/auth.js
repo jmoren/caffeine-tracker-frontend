@@ -9,5 +9,5 @@ export async function logout() {
 }
 
 export async function fetchCurrentUser() {
-  return api.get('/profile')
+  return api.get('/user/profile')
 }

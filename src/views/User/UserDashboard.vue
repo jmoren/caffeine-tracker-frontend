@@ -1,6 +1,7 @@
 <template>
-  <div style="padding: 40px">
+  <div style="padding: 40px; display: flex; justify-content: space-between; align-items: center">
     <add-drink @new-record="(data) => storeRecord(data)" />
+    <a-button @click="openSummary">View Summary</a-button>
   </div>
   <hr />
   <div style="padding: 40px">
@@ -10,18 +11,32 @@
       </a-timeline-item>
     </a-timeline>
   </div>
+
+  <a-drawer
+    v-model:open="showDrawer"
+    class="custom-class"
+    root-class-name="root-class-name"
+    :root-style="{ color: 'blue' }"
+    title="Summary"
+    width="500px"
+    placement="right"
+  >
+    <drinks-summary ref="summaryRef" />
+  </a-drawer>
 </template>
 
 <script setup>
 import AddDrink from '@/components/User/AddDrink.vue'
 import DrinkGroup from '@/components/User/DrinkGroup.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { fetchEntries } from '@/services/user.js'
 import { fromPairs, toPairs, sortBy } from 'lodash'
 import moment from 'moment'
+import DrinksSummary from '@/components/User/DrinksSummary.vue'
 
+const summaryRef = ref(null)
 const records = ref([])
-
+const showDrawer =  ref(false)
 const sortedList = computed(() => {
   return fromPairs(sortBy(toPairs(records.value), ([key]) => key))
 })
@@ -36,6 +51,9 @@ const loadEntries = async () => {
   records.value = res.data
 }
 
+const openSummary = () => {
+  showDrawer.value = true
+}
 onMounted(() => {
   loadEntries()
 })

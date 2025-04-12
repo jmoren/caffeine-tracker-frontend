@@ -53,8 +53,7 @@ const error = ref('')
 
 const handleLogin = async () => {
   try {
-    const res = await login(user.value)
-    uStore.login(res.data.user)
+    await login(user.value)
     await router.push('/')
   } catch (err) {
     error.value = err.response?.data?.error || 'Login failed'

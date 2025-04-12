@@ -56,7 +56,7 @@ const handleClick = menuInfo => {
 
 const makeLogout = async () => {
   await logout()
-  await router.push({ name: 'login' })
+  await router.push({ name: 'Login' })
 }
 </script>
 

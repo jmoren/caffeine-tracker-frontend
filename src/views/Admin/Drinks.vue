@@ -1,6 +1,9 @@
 <template>
   <div style="padding: 40px">
-    <a-button @click="openDrinkForm">New Drink</a-button>
+    <div style="margin-bottom: 20px;">
+      <a-button @click="openDrinkForm">New Drink</a-button>
+    </div>
+
     <a-table :dataSource="drinks" :columns="columns">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'image'">
@@ -44,6 +47,12 @@
           :rules="[{ required: true, message: 'Please set caffeine level' }]"
         >
           <a-input-number v-model:value="newDrink.caffeine" :min="1" />
+        </a-form-item>
+        <a-form-item
+          label="Image"
+          name="image"
+        >
+          <a-input v-model:value="newDrink.image_url" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -90,6 +99,13 @@ const columns = [
 const submit = async () => {
   const res = await createDrink(newDrink.value)
   drinks.value.push(res.data)
+  showForm.value = false
+  newDrink.value = {
+    name: '',
+    description: '',
+    caffeine: 0,
+    image_url: ''
+  }
 }
 
 const openDrinkForm = () => {

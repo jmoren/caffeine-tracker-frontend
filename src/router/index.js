@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import Forbidden from '@/views/User/Forbidden.vue'
 import { fetchCurrentUser } from '@/services/auth'
+import { userStore } from '@/stores/user.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,7 +28,7 @@ const router = createRouter({
           path: 'configuration',
           name: 'Configuration',
           meta: { requiresAdmin: true },
-          component: () => import("../views/Admin/Configuration.vue"),
+          component: () => import("../views/User/UserConfiguration.vue"),
         },
         { path: 'forbidden',
           name: 'Forbidden',
@@ -35,7 +36,7 @@ const router = createRouter({
         },
       ]
     },
-    { path: '/login', component: LoginView },
+    { path: '/login', name: 'Login', component: LoginView },
   ],
 })
 
@@ -46,7 +47,8 @@ router.beforeEach(async (to, from, next) => {
       const user = res.data.user
       if (res.status === 401) next('/login')
       else {
-        console.log(to.meta)
+        const store = userStore()
+        await store.login(user)
         if (to.meta.requiresAdmin)
           if (user.roles.indexOf('admin') > -1)
             next()
